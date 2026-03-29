@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WinUITabPad (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WinUITabPad (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
