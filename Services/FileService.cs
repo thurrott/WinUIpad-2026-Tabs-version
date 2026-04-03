@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-// using WinUITabPad.Helpers;
+using WinUITabPad.Helpers;
 using WinUITabPad.Models;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
@@ -82,7 +82,7 @@ public static class FileService
             doc.IsModified = false;
             doc.IsSaved    = true;
 
-            // RecentFilesManager.AddRecentFile(path);
+            RecentFilesManager.AddRecentFile(path);
             return true;
         }
         catch { return false; }
@@ -148,7 +148,7 @@ public static class FileService
 
             await File.WriteAllBytesAsync(path, output);
             doc.IsModified = false;
-            // RecentFilesManager.AddRecentFile(path);
+            RecentFilesManager.AddRecentFile(path);
             return true;
         }
         catch { return false; }
