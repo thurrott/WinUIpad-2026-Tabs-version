@@ -42,6 +42,9 @@ namespace WinUITabPad
         private readonly SettingsService _settingsService = new();
         private AppSettings Settings => _settingsService.Settings;
 
+        private static readonly double[] ZoomLevels =
+        [10, 25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 400, 500];
+
         //
         // Find/Replace state
         //
@@ -275,19 +278,33 @@ namespace WinUITabPad
         //
         // View menu event handlers
         //
-        private void ZoomInMenu_Click(object sender, RoutedEventArgs e)
-        {
+        private void ZoomInMenu_Click(object sender, RoutedEventArgs e) => StepZoom(+1);
 
-        }
-
-        private void ZoomOutMenu_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        private void ZoomOutMenu_Click(object sender, RoutedEventArgs e) => StepZoom(-1);
 
         private void ZoomResetMenu_Click(object sender, RoutedEventArgs e)
         {
+            Settings.ZoomLevel = 100;
+            ApplyZoom();
+            _settingsService.Save();
+        }
+        private void ApplyZoom()
+        {
+            double scale = Settings.ZoomLevel / 100.0;
+            foreach (var (_, data) in _tabs)
+                data.Editor.FontSize = Settings.FontSize * scale;
+            ZoomText.Text = $"{Settings.ZoomLevel:0}%";
+        }
 
+        private void StepZoom(int delta)
+        {
+            double current = Settings.ZoomLevel;
+            int idx = Array.BinarySearch(ZoomLevels, current);
+            if (idx < 0) idx = ~idx;
+            idx = Math.Clamp(idx + delta, 0, ZoomLevels.Length - 1);
+            Settings.ZoomLevel = ZoomLevels[idx];
+            ApplyZoom();
+            _settingsService.Save();
         }
 
         private void EncodingMenu_Click(object sender, RoutedEventArgs e)
@@ -930,7 +947,19 @@ namespace WinUITabPad
 
         private void ZoomButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var menu = new MenuFlyout();
+            foreach (var level in ZoomLevels)
+            {
+                var item = new MenuFlyoutItem { Text = $"{level:0}%" };
+                item.Click += (_, _) =>
+                {
+                    Settings.ZoomLevel = level;
+                    ApplyZoom();
+                    _settingsService.Save();
+                };
+                menu.Items.Add(item);
+            }
+            menu.ShowAt(ZoomButton);
         }
 
         //
@@ -1046,7 +1075,7 @@ namespace WinUITabPad
             if (FontSizeCombo.SelectedItem is double size)
             {
                 Settings.FontSize = size;
-                // ApplyZoom(); // re-applies font size with current zoom
+                ApplyZoom(); // re-applies font size with current zoom
                 UpdateFontPreview();
                 _settingsService.Save();
             }
