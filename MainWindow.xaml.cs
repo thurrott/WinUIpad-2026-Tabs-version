@@ -7,13 +7,14 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Text;
+using WinUITabPad.Helpers;
 using WinUITabPad.Models;
 using WinUITabPad.Services;
-using WinUITabPad.Helpers;
 
 namespace WinUITabPad
 {
@@ -291,12 +292,31 @@ namespace WinUITabPad
 
         private void EncodingMenu_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Active is null) return;
+            var tag = (sender as MenuFlyoutItem)?.Tag as string;
+            Active.Document.Encoding = tag switch
+            {
+                "UTF-8-BOM" => new UTF8Encoding(encoderShouldEmitUTF8Identifier: true),
+                "UTF-16" => Encoding.Unicode,
+                "UTF-16BE" => Encoding.BigEndianUnicode,
+                "ANSI" => Encoding.GetEncoding(1252),
+                _ => new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)
+            };
+            UpdateStatusBar();
         }
 
         private void LineEndingMenu_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Active is null) return;
+            var tag = (sender as MenuFlyoutItem)?.Tag as string;
+            Active.Document.LineEnding = tag switch
+            {
+                "LF" => LineEnding.LF,
+                "CR" => LineEnding.CR,
+                _ => LineEnding.CRLF
+            };
+            Active.Document.IsModified = true;
+            UpdateStatusBar();
         }
 
         private void StatusBarMenu_Click(object sender, RoutedEventArgs e)
@@ -863,12 +883,49 @@ namespace WinUITabPad
 
         private void EncodingButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Active is null) return;
+            var menu = new MenuFlyout();
+            foreach (var (label, tag) in new[]
+                { ("UTF-8","UTF-8"), ("UTF-8 BOM","UTF-8-BOM"), ("UTF-16 LE","UTF-16"),
+              ("UTF-16 BE","UTF-16BE"), ("ANSI","ANSI") })
+            {
+                var t = tag;
+                var item = new MenuFlyoutItem { Text = label };
+                item.Click += (_, _) =>
+                {
+                    Active.Document.Encoding = t switch
+                    {
+                        "UTF-8-BOM" => new UTF8Encoding(encoderShouldEmitUTF8Identifier: true),
+                        "UTF-16" => Encoding.Unicode,
+                        "UTF-16BE" => Encoding.BigEndianUnicode,
+                        "ANSI" => Encoding.GetEncoding(1252),
+                        _ => new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)
+                    };
+                    UpdateStatusBar();
+                };
+                menu.Items.Add(item);
+            }
+            menu.ShowAt(EncodingButton);
         }
 
         private void LineEndingButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Active is null) return;
+            var menu = new MenuFlyout();
+            foreach (var (label, ending) in new[]
+                { ("Windows (CRLF)", LineEnding.CRLF), ("Unix (LF)", LineEnding.LF), ("Mac (CR)", LineEnding.CR) })
+            {
+                var le = ending;
+                var item = new MenuFlyoutItem { Text = label };
+                item.Click += (_, _) =>
+                {
+                    Active.Document.LineEnding = le;
+                    Active.Document.IsModified = true;
+                    UpdateStatusBar();
+                };
+                menu.Items.Add(item);
+            }
+            menu.ShowAt(LineEndingButton);
         }
 
         private void ZoomButton_Click(object sender, RoutedEventArgs e)

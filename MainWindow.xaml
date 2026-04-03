@@ -214,14 +214,14 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" x:Name="PositionText" Text="Ln 1, Col 1" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" Margin="15,0,0,0" />
                 <TextBlock Grid.Column="1" x:Name="CountText" Text="0 words" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" Margin="20,0,0,0" Tapped="CountText_Tapped" ToolTipService.ToolTip="Click to toggle word/character count" />
-                <Button Grid.Column="3" x:Name="ZoomButton" Background="Transparent" BorderBrush="Transparent" Height="26" Padding="8,0" Click="ZoomButton_Click" ToolTipService.ToolTip="Click to change zoom">
+                <Button Grid.Column="2" x:Name="ZoomButton" Background="Transparent" BorderBrush="Transparent" Height="26" Margin="20,0,0,0" Padding="8,0" Click="ZoomButton_Click" ToolTipService.ToolTip="Click to change zoom">
                     <TextBlock x:Name="ZoomText" Text="100%" Style="{StaticResource CaptionTextBlockStyle}" />
                 </Button>
                 <Button Grid.Column="4" x:Name="LineEndingButton" Background="Transparent" BorderBrush="Transparent" Height="26" Padding="8,0" Click="LineEndingButton_Click" ToolTipService.ToolTip="Click to change line endings">
