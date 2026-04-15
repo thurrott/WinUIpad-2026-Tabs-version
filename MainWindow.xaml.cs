@@ -15,6 +15,7 @@ using Windows.UI.Text;
 using WinUITabPad.Helpers;
 using WinUITabPad.Models;
 using WinUITabPad.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WinUITabPad
 {
@@ -113,10 +114,11 @@ namespace WinUITabPad
                     data.Document.Contents = newDoc.Contents;
                     data.Document.Encoding = newDoc.Encoding;
                     data.Document.LineEnding = newDoc.LineEnding;
-                    data.Document.IsModified = false;
+                    // data.Document.IsModified = false;
                     data.Document.IsSaved = true;
                     data.Editor.Text = newDoc.Contents;
                     UpdateStatusBar();
+                    data.Document.IsModified = false;
                 }
                 else
                 {
@@ -126,9 +128,10 @@ namespace WinUITabPad
                         data.Document.Contents = newDoc.Contents;
                         data.Document.Encoding = newDoc.Encoding;
                         data.Document.LineEnding = newDoc.LineEnding;
-                        data.Document.IsModified = false;
+                        // data.Document.IsModified = false;
                         data.Editor.Text = newDoc.Contents;
                         UpdateStatusBar();
+                        data.Document.IsModified = false;
                     }
                 }
                 UpdateRecentFilesMenu();
