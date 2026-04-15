@@ -1163,7 +1163,7 @@ namespace WinUITabPad
             }
             SaveSession();
             SaveWindowSettings();
-            Application.Current.Exit();
+            Close();
         }
 
         // 
