@@ -16,7 +16,7 @@
   <mp:PhoneIdentity PhoneProductId="2c50b8ff-69aa-4f36-a640-bf5b131ad728" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>WinUITabPad</DisplayName>
+    <DisplayName>WinUIpad</DisplayName>
     <PublisherDisplayName>paul</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -35,11 +35,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="WinUITabPad"
-        Description="WinUITabPad"
+        DisplayName="WinUIpad"
+        Description="WinUIpad"
         BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
+        Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\t-pride-icon.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
