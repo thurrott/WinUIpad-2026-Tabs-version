@@ -114,11 +114,11 @@ namespace WinUITabPad
                     data.Document.Contents = newDoc.Contents;
                     data.Document.Encoding = newDoc.Encoding;
                     data.Document.LineEnding = newDoc.LineEnding;
-                    // data.Document.IsModified = false;
                     data.Document.IsSaved = true;
                     data.Editor.Text = newDoc.Contents;
+                    data.Document.IsModified = false; 
                     UpdateStatusBar();
-                    data.Document.IsModified = false;
+                    
                 }
                 else
                 {
@@ -128,10 +128,9 @@ namespace WinUITabPad
                         data.Document.Contents = newDoc.Contents;
                         data.Document.Encoding = newDoc.Encoding;
                         data.Document.LineEnding = newDoc.LineEnding;
-                        // data.Document.IsModified = false;
                         data.Editor.Text = newDoc.Contents;
-                        UpdateStatusBar();
                         data.Document.IsModified = false;
+                        UpdateStatusBar();
                     }
                 }
                 UpdateRecentFilesMenu();
